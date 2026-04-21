@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}About Us | PriceLens{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+    <div>
+        <p class="about-kicker">About PriceLens</p>
+        <h1>We make price comparison simple, fast, and reliable.</h1>
+        <p class="about-lead">PriceLens is a product comparison platform that brings grocery, clothing, and gadget pricing into one clean experience so shoppers can spot value instantly.</p>
+        <div class="about-actions">
+            <a class="solid-btn" href="{{ url_for('main.index') }}">Explore categories</a>
+            <a class="outline-btn" href="{{ url_for('main.category', category='Grocery') }}">Start with groceries</a>
+        </div>
+    </div>
+    <div class="about-hero-card">
+        <h3>Website description</h3>
+        <p>PriceLens helps users compare prices across platforms, view recent price snapshots, and make confident buying decisions without tab-hopping.</p>
+        <div class="about-metric">
+            <span class="metric-value">3</span>
+            <span class="metric-label">Core categories</span>
+        </div>
+        <div class="about-metric">
+            <span class="metric-value">1</span>
+            <span class="metric-label">Unified comparison flow</span>
+        </div>
+    </div>
+</section>
+
+<section class="about-grid">
+    <article class="about-card">
+        <h3>Why PriceLens</h3>
+        <p>We built PriceLens to remove the busywork of searching across multiple stores and tabs. Everything is organized, filtered, and ready to compare.</p>
+    </article>
+    <article class="about-card">
+        <h3>What we compare</h3>
+        <p>Groceries, clothing, and gadgets are tracked with price snapshots so you can plan purchases across essentials and upgrades.</p>
+    </article>
+    <article class="about-card">
+        <h3>How it works</h3>
+        <p>Every product card shows the latest available price, store name, and product details, with quick comparison support.</p>
+    </article>
+</section>
+
+<section class="about-story">
+    <div>
+        <h2>Built for everyday decisions</h2>
+        <p>From weekly shopping lists to special occasion buys, PriceLens keeps pricing transparent and effortless. We focus on clarity, speed, and a layout that makes sense at a glance.</p>
+        <p class="muted">Next up: smarter alerts, deeper coverage, and personalization that stays lightweight.</p>
+    </div>
+    <div class="about-highlight">
+        <h3>What matters to us</h3>
+        <ul class="about-list">
+            <li>Accurate, up-to-date price snapshots</li>
+            <li>Simple comparisons that feel human</li>
+            <li>Respect for your time and attention</li>
+        </ul>
+    </div>
+</section>
+
+
+
+<section class="about-cta">
+    <h2>Ready to compare?</h2>
+    <p>Jump into a category and see the latest picks curated for you.</p>
+    <a class="btn" href="{{ url_for('main.index') }}">Browse now</a>
+</section>
+{% endblock %}

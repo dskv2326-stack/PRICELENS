@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}PriceLens - {{ category }}{% endblock %}
+
+{% block content %}
+<section class="section-head">
+    <h2>{{ category }} Products</h2>
+    <span>{{ products|length }} items</span>
+</section>
+
+<div class="catalog-grid">
+    {% for product in products %}
+        {% set image_src = product.image_url if product.image_url.startswith('http') else url_for('static', filename=product.image_url) %}
+        <article class="catalog-card" data-product-id="{{ product.id }}" data-product-category="{{ product.category }}">
+            <div class="catalog-media">
+                <img src="{{ image_src }}" alt="{{ product.name }}">
+                <span class="catalog-tag">{{ product.category }}</span>
+            </div>
+            <div class="catalog-body">
+                <h3>{{ product.name }}</h3>
+                <p class="catalog-meta">{{ product.brand }} | {{ product.category }}</p>
+{% if product.category == 'Grocery' %}
+    <div class="catalog-grocery-badge">
+        <img class="catalog-grocery-badge-img" src="{{ url_for('static', filename='Product_Cart_Image/Rounded_Grocery_Image.png') }}" alt="Grocery platforms">
+    </div>
+{% endif %}
+                <button class="compare-btn" type="button"
+                    data-product-id="{{ product.id }}"
+                    data-product-category="{{ product.category }}"
+                    data-product-name="{{ product.name }}"
+                    data-product-meta="{{ product.brand }} | {{ product.category }}"
+                    data-product-image="{{ image_src }}"
+                    data-prices='{{ product.prices | tojson }}'>
+                    Compare All Prices
+                </button>
+            </div>
+        </article>
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Your History - PriceLens{% endblock %}
+
+{% block content %}
+<section class="section-head">
+    <h2>Your Viewed Products</h2>
+    <span>{{ entries|length }} items</span>
+</section>
+
+{% if entries %}
+    <div class="product-grid">
+        {% for entry in entries %}
+            {% set image_src = entry.image_url if entry.image_url.startswith('http') else url_for('static', filename=entry.image_url) %}
+            <article class="product-card">
+                <img src="{{ image_src }}" alt="{{ entry.name }}">
+                <div class="card-body">
+                    <h3>{{ entry.name }}</h3>
+                    <p>{{ entry.category }}</p>
+                    <p class="price">&#8377;{{ '%.2f'|format(entry.cheapest_price) }}</p>
+                    <p class="platform">Best on {{ entry.cheapest_platform }}</p>
+                    <span class="badge">Best Price</span>
+                    <small>Viewed: {{ entry.viewed_at }}</small>
+                    <a class="btn" href="{{ url_for('main.product', category=entry.category, product_id=entry.id) }}">View Again</a>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <p>No viewing history yet. Open product pages to start tracking.</p>
+    </div>
+{% endif %}
+{% endblock %}

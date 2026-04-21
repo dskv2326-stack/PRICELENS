@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}PriceLens - Home{% endblock %}
+
+{% block content %}
+<section class="hero hero-reference">
+    <div class="hero-content">
+        <h1>Find the <span>Best Prices</span> Instantly</h1>
+        <p>Compare prices across top platforms. Save money on groceries, clothing & gadgets.</p>
+        <div class="hero-search-wrap">
+            <div class="hero-search-row">
+                <span class="search-icon">&#128269;</span>
+                <input id="search-input" type="search" placeholder="Search for products..." autocomplete="off">
+                <button type="button" class="search-btn">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="hero-category-buttons">
+                <a class="category-card-pill cc-grocery" href="{{ url_for('main.category', category='Grocery') }}">
+                    <div class="pill-badge">G</div>
+                    <div class="pill-title">Grocery</div>
+                    <div class="pill-sub">Instamart ? Zepto ? Blinkit</div>
+                </a>
+                <a class="category-card-pill cc-clothing" href="{{ url_for('main.category', category='Clothing') }}">
+                    <div class="pill-badge">C</div>
+                    <div class="pill-title">Clothing</div>
+                    <div class="pill-sub">Myntra ? Ajio</div>
+                </a>
+                <a class="category-card-pill cc-gadgets" href="{{ url_for('main.category', category='Gadgets') }}">
+                    <div class="pill-badge">G</div>
+                    <div class="pill-title">Gadgets</div>
+                    <div class="pill-sub">Amazon ? Flipkart</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="category-lanes">
+    {% for section in category_sections %}
+        <div class="lane-card">
+            <div class="lane-head">
+                <h2>{{ section.label }}:</h2>
+                <a class="lane-link" href="{{ url_for('main.category', category=section.name) }}">View All &#8594;</a>
+            </div>
+            <div class="lane-grid">
+                {% for product in section.products %}
+                    {% set image_src = product.image_url if product.image_url.startswith('http') else url_for('static', filename=product.image_url) %}
+                    <article class="catalog-card" data-product-id="{{ product.id }}" data-product-category="{{ product.category }}">
+                        <div class="catalog-media">
+                            <img src="{{ image_src }}" alt="{{ product.name }}">
+                            <span class="catalog-tag">{{ product.category }}</span>
+                        </div>
+                        <div class="catalog-body">
+                            <h3>{{ product.name }}</h3>
+                            <p class="catalog-meta">{{ product.brand }} | {{ product.category }}</p>
+                            {% if product.category == 'Grocery' %}
+                                <div class="catalog-grocery-badge">
+                                    <img class="catalog-grocery-badge-img" src="{{ url_for('static', filename='Product_Cart_Image/Rounded_Grocery_Image.png') }}" alt="Grocery platforms">
+                                </div>
+                            {% endif %}
+                            <button class="compare-btn" type="button"
+                                data-product-id="{{ product.id }}"
+                                data-product-category="{{ product.category }}"
+                                data-product-name="{{ product.name }}"
+                                data-product-meta="{{ product.brand }} | {{ product.category }}"
+                                data-product-image="{{ image_src }}"
+                                data-prices='{{ product.prices | tojson }}'>
+                                Compare All Prices
+                            </button>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</section>
+
+<section id="about" class="about-strip">
+    <h3>About PriceLens</h3>
+    <p>PriceLens tracks platform-wise prices daily and highlights the cheapest option for each product in one clean dashboard.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}PriceLens - {{ product.name }}{% endblock %}
+
+{% block content %}
+<section class="product-detail">
+    {% set image_src = image_url if image_url.startswith('http') else url_for('static', filename=image_url) %}
+    <div class="product-media">
+        <img src="{{ image_src }}" alt="{{ product.name }}">
+    </div>
+    <div>
+        <h1>{{ product.name }}</h1>
+        <p class="muted">{{ product.brand }} | {{ product.category }}</p>
+        {% if cheapest %}
+            <p class="price">&#8377;{{ '%.2f'|format(cheapest.price) }}</p>
+            <p class="platform">Cheapest on {{ cheapest.platform }}</p>
+            <span class="badge">Best Price</span>
+            <p class="muted">Last updated: {{ cheapest.last_updated }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<section>
+    <h2>Price Comparison</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Platform</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in prices %}
+                    <tr>
+                        <td>{{ row.platform }}</td>
+                        <td>&#8377;{{ '%.2f'|format(row.price) }}</td>
+                        <td>{% if row.is_cheapest %}<span class="badge">Best Price</span>{% else %}-{% endif %}</td>
+                        <td>{{ row.last_updated }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
